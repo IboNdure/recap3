@@ -15,9 +15,9 @@ let maxPage = 1;
 let page = 1;
 let searchQuery = "";
 
-export async function fetchCharacters(page) {
+export async function fetchCharacters() {
   const response = await fetch(
-    `https://rickandmortyapi.com/api/character/?page=${page}`
+    `https://rickandmortyapi.com/api/character/?page=${page}&name=${searchQuery}`
   );
   const data = await response.json();
 
@@ -45,7 +45,6 @@ prevButton.addEventListener("click", () => {
   if (page > 1) {
     page--;
     fetchCharacters(page);
-    updatePaginationDisplay(page);
   } else {
     console.log("Du bist auf der ersten Seite.");
   }
@@ -55,17 +54,14 @@ nextButton.addEventListener("click", () => {
   if (page < maxPage) {
     page++;
     fetchCharacters(page);
-    updatePaginationDisplay(page);
   } else {
     console.log("Maximale Seitenzahl erreicht.");
   }
 });
 
-function updatePaginationDisplay(page) {
-  pagination.textContent = `${page} / ${maxPage}`;
-}
-
 searchBar.addEventListener("submit", (event) => {
   event.preventDefault();
-  const searchQuery = eve;
+  searchQuery = event.target.elements.query.value;
+  page = 1;
+  fetchCharacters();
 });
