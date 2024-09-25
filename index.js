@@ -15,8 +15,8 @@ const maxPage = 1;
 const page = 1;
 const searchQuery = "";
 
-export async function fetchCharacters() {
-  const response = await fetch("https://rickandmortyapi.com/api/character");
+export async function fetchCharacters(pageIndex) {
+  const response = await fetch(`https://rickandmortyapi.com/api/character/?page=${pageIndex}`);
   const data = await response.json();
   console.log(data);
 
@@ -28,3 +28,45 @@ export async function fetchCharacters() {
   });
 }
 fetchCharacters();
+
+
+// Pagination
+
+
+
+let pageIndex = 1;
+
+prevButton.addEventListener("click", () => {
+
+  if (pageIndex >= 1) {
+    pageIndex--
+    fetchCharacters(pageIndex);
+    updatePaginationDisplay(pageIndex);
+  } else {
+    console.log("Du bist auf der ersten Seite.");
+  }
+  
+  });
+
+
+
+nextButton.addEventListener("click", () => {
+
+  if (pageIndex < 20) {
+    pageIndex++
+    fetchCharacters(pageIndex);
+    updatePaginationDisplay(pageIndex);
+  } else {
+    console.log("Maximale Seitenzahl erreicht.");
+  }
+  
+  });
+
+
+
+  function updatePaginationDisplay(pageIndex) {
+    pagination.textContent = `${pageIndex} / 20`; 
+  };
+  
+  
+
