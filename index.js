@@ -11,62 +11,61 @@ const nextButton = document.querySelector('[data-js="button-next"]');
 const pagination = document.querySelector('[data-js="pagination"]');
 
 // States
-const maxPage = 1;
-const page = 1;
-const searchQuery = "";
+let maxPage = 1;
+let page = 1;
+let searchQuery = "";
 
-export async function fetchCharacters(pageIndex) {
-  const response = await fetch(`https://rickandmortyapi.com/api/character/?page=${pageIndex}`);
+export async function fetchCharacters(page) {
+  const response = await fetch(
+    `https://rickandmortyapi.com/api/character/?page=${page}`
+  );
   const data = await response.json();
+
   console.log(data);
 
   cardContainer.innerHTML = "";
-
+  maxPage = data.info.pages;
   data.results.forEach((character) => {
     const card = CharacterCard(character);
     cardContainer.append(card);
   });
+  pagination.textContent = `${page} / ${maxPage}`;
 }
 fetchCharacters();
 
-
+/* export async function fetchPages(maxPage) {
+  const responseInfo = await fetch(
+    `https://rickandmortyapi.com/api/character=${Page}`
+  );
+  const data = await responseInfo.json();
+} */
 // Pagination
 
-
-
-let pageIndex = 1;
-
 prevButton.addEventListener("click", () => {
-
-  if (pageIndex >= 1) {
-    pageIndex--
-    fetchCharacters(pageIndex);
-    updatePaginationDisplay(pageIndex);
+  if (page > 1) {
+    page--;
+    fetchCharacters(page);
+    updatePaginationDisplay(page);
   } else {
     console.log("Du bist auf der ersten Seite.");
   }
-  
-  });
-
-
+});
 
 nextButton.addEventListener("click", () => {
-
-  if (pageIndex < 20) {
-    pageIndex++
-    fetchCharacters(pageIndex);
-    updatePaginationDisplay(pageIndex);
+  if (page < maxPage) {
+    page++;
+    fetchCharacters(page);
+    updatePaginationDisplay(page);
   } else {
     console.log("Maximale Seitenzahl erreicht.");
   }
-  
-  });
+});
 
+function updatePaginationDisplay(page) {
+  pagination.textContent = `${page} / ${maxPage}`;
+}
 
-
-  function updatePaginationDisplay(pageIndex) {
-    pagination.textContent = `${pageIndex} / 20`; 
-  };
-  
-  
-
+searchBar.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const searchQuery = eve;
+});
